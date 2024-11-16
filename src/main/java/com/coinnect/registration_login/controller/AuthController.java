@@ -12,9 +12,10 @@ import com.coinnect.registration_login.dto.TokenResponseDTO;
 import com.coinnect.registration_login.model.User;
 import com.coinnect.registration_login.service.AuthService;
 
+import jakarta.validation.Valid;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-
 
 @RestController
 @RequestMapping("/auth")
@@ -30,7 +31,13 @@ public class AuthController {
     }
     
     @PostMapping("/login")
-    public ResponseEntity<TokenResponseDTO> authenticate(@RequestBody LoginRequestDTO loginRequestDTO) {
-        return ResponseEntity.ok(new TokenResponseDTO());
+    public ResponseEntity<TokenResponseDTO> login(@Valid @RequestBody LoginRequestDTO loginRequestDTO) {
+        try {
+            TokenResponseDTO tokenResponse = authService.login(loginRequestDTO);
+            return ResponseEntity.ok(tokenResponse);
+        } catch (RuntimeException ex) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(new TokenResponseDTO("Login failed: " + ex.getMessage()));
+        }
     }
 }

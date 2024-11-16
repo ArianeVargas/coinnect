@@ -14,6 +14,8 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import lombok.AllArgsConstructor;
@@ -51,7 +53,7 @@ public class UserLogin implements UserDetails {
     private String password;
 
     @Enumerated(EnumType.STRING)
-    Role role;
+    private Role role;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -62,6 +64,11 @@ public class UserLogin implements UserDetails {
     public String getUsername() {
         return userName;
     }
+
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
 
 }
 

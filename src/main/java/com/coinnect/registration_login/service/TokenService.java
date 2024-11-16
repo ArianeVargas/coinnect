@@ -10,6 +10,8 @@ import java.util.Base64;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import com.coinnect.registration_login.dto.LoginRequestDTO;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -20,6 +22,14 @@ public class TokenService {
 
     private final String SECRET_KEY = "QWhJZ28ZkXv4MlZ1P1kZzX7fSLmy58D7Oj68jk9rGcM="; 
     private final long expirationTime = 1000 * 60 * 60 * 24;  
+
+    public String login(LoginRequestDTO loginRequestDTO, UserDetails userDetails) {
+        if (userDetails == null || !userDetails.getUsername().equals(loginRequestDTO.getUserName())) {
+            throw new RuntimeException("Invalid username or password");
+        }
+
+        return getToken(new HashMap<>(), userDetails);
+    }
 
     public String getToken(UserDetails user){
         return getToken(new HashMap<>(), user);
@@ -51,12 +61,14 @@ public class TokenService {
     }
 
     private Claims getAllClaims(String token){
-        return Jwts
-            .parser()
-            .setSigningKey(getKey())
-            .build()
-            .parseClaimsJws(token)
-            .getBody();
+        if (token == null || token.trim().isEmpty()) {
+            throw new IllegalArgumentException("Token cannot be null or empty");
+        }
+        return Jwts.parser()
+                   .setSigningKey(SECRET_KEY)
+                   .build()
+                   .parseClaimsJws(token)
+                   .getBody();
     }
 
     public <T> T getClaim(String token, Function<Claims, T> claimsResolver){

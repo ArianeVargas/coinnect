@@ -20,7 +20,7 @@ import lombok.RequiredArgsConstructor;
 public class ApplicationConfig {
 
     private final UserLoginRepository userLoginRepository;
-    
+
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
         return authConfig.getAuthenticationManager();
@@ -36,8 +36,11 @@ public class ApplicationConfig {
 
     @Bean
     public UserDetailsService userDetailService() {
-        return userName -> userLoginRepository.findByUserName(userName)
-            .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado. "));
+        return userName -> {
+            System.out.println("Looking for user: " + userName);
+            return userLoginRepository.findByUserName(userName)
+                .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado."));
+        };
     }
 
     @Bean
