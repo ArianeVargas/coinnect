@@ -10,7 +10,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.coinnect.registration_login.dto.LoginRequestDTO;
 import com.coinnect.registration_login.dto.RegisterRequestDTO;
+import com.coinnect.registration_login.dto.TokenResponseDTO;
 import com.coinnect.registration_login.exception.ResourceNotFoundException;
 import com.coinnect.registration_login.model.User;
 import com.coinnect.registration_login.repository.UserRepository;
@@ -48,17 +50,7 @@ public class AuthService {
         return userRepository.save(newUser);
     }
 
-    public String authenticate(String userName, String password) {
-        try {
-            Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(userName, password)
-            );
-
-            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-            return tokenService.getToken(userDetails);
-
-        } catch (AuthenticationException e) {
-            throw new ResourceNotFoundException("Credenciales incorrectas.");
-        }
+    public TokenResponseDTO login(LoginRequestDTO loginRequestDTO) {
+        
     }
 }

@@ -4,6 +4,7 @@ import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.Base64;
 
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,19 +21,19 @@ public class TokenService {
     private final String SECRET_KEY = "QWhJZ28ZkXv4MlZ1P1kZzX7fSLmy58D7Oj68jk9rGcM="; 
     private final long expirationTime = 1000 * 60 * 60 * 24;  
 
-    public String getToken(UserDetails user) {
+    public String getToken(UserDetails user){
         return getToken(new HashMap<>(), user);
     }
 
     private String getToken(Map<String, Object> extraClaims, UserDetails user) {
         return Jwts
                 .builder()
-                .setClaims(extraClaims)  // Si hay claims extra, se pasan aquí
-                .setSubject(user.getUsername())  // El nombre de usuario es el "subject"
-                .setIssuedAt(new Date(System.currentTimeMillis()))  // Fecha de emisión
-                .setExpiration(new Date(System.currentTimeMillis() + expirationTime))  // Fecha de expiración
-                .signWith(getKey(), SignatureAlgorithm.HS256)  // Firma usando la clave secreta
-                .compact();  // Genera el JWT
+                .setClaims(extraClaims)  
+                .setSubject(user.getUsername())  
+                .setIssuedAt(new Date(System.currentTimeMillis()))  
+                .setExpiration(new Date(System.currentTimeMillis() + expirationTime)) 
+                .signWith(getKey(), SignatureAlgorithm.HS256)  
+                .compact();  
     }
 
     private Key getKey() {
@@ -40,25 +41,34 @@ public class TokenService {
         return Keys.hmacShaKeyFor(keyBytes);  
     }
 
-    public String extractUsername(String token) {
-        return extractClaim(token, Claims::getSubject);  
+    public String getUserNameFromToken(String token) {
+        return getClaim(token, Claims::getSubject);
     }
 
-    private <T> T extractClaim(String token, ClaimsResolver<T> claimsResolver) {
-        final Claims claims = extractAllClaims(token); 
-        return claimsResolver.resolve(claims); 
+    public boolean isTokenValid(String token, UserDetails userDetails) {
+        final String userName = getUserNameFromToken(token);
+        return (userName.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
 
-    private Claims extractAllClaims(String token) {
-        return Jwts.builder()  
-                .setSigningKey(SECRET_KEY) 
-                .build() 
-                .parseClaimsJws(token)  
-                .getBody();  
+    private Claims getAllClaims(String token){
+        return Jwts
+            .parser()
+            .setSigningKey(getKey())
+            .build()
+            .parseClaimsJws(token)
+            .getBody();
     }
 
-    @FunctionalInterface
-    public interface ClaimsResolver<T> {
-        T resolve(Claims claims);
+    public <T> T getClaim(String token, Function<Claims, T> claimsResolver){
+        final Claims claims = getAllClaims(token);
+        return claimsResolver.apply(claims);
+    }
+
+    private Date getExpiration(String token){
+        return getClaim(token, Claims::getExpiration);
+    }
+
+    private boolean isTokenExpired(String token){
+        return getExpiration(token).before(new Date());
     }
 }

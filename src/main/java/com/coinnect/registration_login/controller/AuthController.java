@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.coinnect.registration_login.dto.LoginRequestDTO;
 import com.coinnect.registration_login.dto.RegisterRequestDTO;
+import com.coinnect.registration_login.dto.TokenResponseDTO;
 import com.coinnect.registration_login.model.User;
 import com.coinnect.registration_login.service.AuthService;
 
@@ -29,8 +30,7 @@ public class AuthController {
     }
     
     @PostMapping("/login")
-    public ResponseEntity<String> authenticate(@RequestBody LoginRequestDTO loginRequestDTO) {
-        String token = authService.authenticate(loginRequestDTO.getUserName(), loginRequestDTO.getPassword());
-        return ResponseEntity.ok(token);
+    public ResponseEntity<TokenResponseDTO> authenticate(@RequestBody LoginRequestDTO loginRequestDTO) {
+        return ResponseEntity.ok(new TokenResponseDTO());
     }
 }
