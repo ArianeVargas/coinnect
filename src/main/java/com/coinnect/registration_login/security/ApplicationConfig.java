@@ -10,8 +10,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.coinnect.registration_login.exception.ResourceNotFoundException;
-import com.coinnect.registration_login.repository.UserLoginRepository;
+import com.coinnect.registration_login.authentication.repository.UserLoginRepository;
+import com.coinnect.registration_login.common.exception.ResourceNotFoundException;
 
 import lombok.RequiredArgsConstructor;
 
@@ -37,7 +37,6 @@ public class ApplicationConfig {
     @Bean
     public UserDetailsService userDetailService() {
         return userName -> {
-            System.out.println("Looking for user: " + userName);
             return userLoginRepository.findByUserName(userName)
                 .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado."));
         };

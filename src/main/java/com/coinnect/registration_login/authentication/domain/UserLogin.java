@@ -1,4 +1,4 @@
-package com.coinnect.registration_login.model;
+package com.coinnect.registration_login.authentication.domain;
 
 import java.util.Collection;
 import java.util.List;
@@ -18,15 +18,18 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
-@Builder
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Entity
 @Table(name = "user_login", uniqueConstraints = {@UniqueConstraint(columnNames = {"user_name"})})
 public class UserLogin implements UserDetails {
@@ -35,25 +38,20 @@ public class UserLogin implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name_user")
-    private String nameUser;
-
-    @Column(name = "last_name_user")
-    private String lastNameUser;
-
-    @Column(name = "identification_user")
-    private String identificationUser;
-
-    @Column(name = "email_user")
-    private String emailUser;
-
-    @Column(name = "user_name", nullable = false)
+    @NotNull
+    @Column(name = "user_name", nullable = false, unique = true)
     private String userName;
 
+    @NotNull
+    @Column(nullable = false)
     private String password;
 
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @OneToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -61,14 +59,14 @@ public class UserLogin implements UserDetails {
     }
 
     @Override
+    public String getPassword() {
+        return password;
+    }
+
+    @Override
     public String getUsername() {
         return userName;
     }
-
-    @OneToOne
-    @JoinColumn(name = "user_id")
-    private User user;
-
 
 }
 

@@ -1,11 +1,11 @@
-package com.coinnect.registration_login.repository;
+package com.coinnect.registration_login.authentication.repository;
 
 import java.util.Optional;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.coinnect.registration_login.model.User;
+import com.coinnect.registration_login.authentication.domain.User;
 
 public interface UserRepository extends JpaRepository<User, Long>{
 
@@ -13,5 +13,5 @@ public interface UserRepository extends JpaRepository<User, Long>{
 
     Optional<User> findByEmailUser(String emailUser);
 
-    List<User> findByIdentificationUser(String identificationUser);
+    Optional<User> findByIdentificationUser(String identificationUser);
 }

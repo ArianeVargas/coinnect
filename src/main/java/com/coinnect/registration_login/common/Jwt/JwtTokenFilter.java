@@ -1,4 +1,4 @@
-package com.coinnect.registration_login.Jwt;
+package com.coinnect.registration_login.common.Jwt;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.coinnect.registration_login.service.TokenService;
+import com.coinnect.registration_login.authentication.service.TokenService;
 
 import org.springframework.util.StringUtils;
 import org.springframework.http.HttpHeaders;
