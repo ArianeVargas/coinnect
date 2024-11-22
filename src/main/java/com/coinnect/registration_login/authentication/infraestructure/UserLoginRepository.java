@@ -1,4 +1,4 @@
-package com.coinnect.registration_login.authentication.repository;
+package com.coinnect.registration_login.authentication.infraestructure;
 
 import java.util.Optional;
 

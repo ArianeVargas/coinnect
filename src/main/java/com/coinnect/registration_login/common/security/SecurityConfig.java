@@ -1,4 +1,4 @@
-package com.coinnect.registration_login.security;
+package com.coinnect.registration_login.common.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

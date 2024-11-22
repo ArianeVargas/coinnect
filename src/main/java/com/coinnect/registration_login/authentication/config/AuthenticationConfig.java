@@ -1,4 +1,4 @@
-package com.coinnect.registration_login.security;
+package com.coinnect.registration_login.authentication.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,14 +10,14 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.coinnect.registration_login.authentication.repository.UserLoginRepository;
+import com.coinnect.registration_login.authentication.infraestructure.UserLoginRepository;
 import com.coinnect.registration_login.common.exception.ResourceNotFoundException;
 
 import lombok.RequiredArgsConstructor;
 
 @Configuration
 @RequiredArgsConstructor
-public class ApplicationConfig {
+public class AuthenticationConfig {
 
     private final UserLoginRepository userLoginRepository;
 

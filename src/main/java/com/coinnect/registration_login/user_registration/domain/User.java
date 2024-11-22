@@ -1,10 +1,12 @@
-package com.coinnect.registration_login.authentication.domain;
+package com.coinnect.registration_login.user_registration.domain;
 
 import java.time.LocalDateTime;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import com.coinnect.registration_login.authentication.domain.UserLogin;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -59,10 +61,11 @@ public class User {
     private String password;
 
     @CreatedDate
-    @Column(updatable = false)
+    @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
     @LastModifiedDate
+    @Column(name = "update_at")
     private LocalDateTime updatedAt;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
