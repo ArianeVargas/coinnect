@@ -5,8 +5,10 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 import java.util.Base64;
 
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -36,6 +38,11 @@ public class TokenService {
     }
 
     private String getToken(Map<String, Object> extraClaims, UserDetails user) {
+        String role = user.getAuthorities().stream()
+                      .map(GrantedAuthority::getAuthority)
+                      .collect(Collectors.joining(","));
+    
+        extraClaims.put("role", role);
         return Jwts
                 .builder()
                 .setClaims(extraClaims)  
@@ -45,6 +52,10 @@ public class TokenService {
                 .signWith(getKey(), SignatureAlgorithm.HS256)  
                 .compact();  
     }
+
+    public String getRoleFromToken(String token) {
+        return getClaim(token, claims -> claims.get("role", String.class));
+    }    
 
     private Key getKey() {
         byte[] keyBytes = Base64.getDecoder().decode(SECRET_KEY);  

@@ -61,9 +61,9 @@ public class RegisterService {
             throw new IllegalArgumentException("La identificación es obligatoria.");
         }
 
-        if (registerRequestDTO.getEmailUser() == null || registerRequestDTO.getEmailUser().isEmpty()) {
-            throw new IllegalArgumentException("El correo electrónico es obligatorio.");
-        }
+        if (!registerRequestDTO.getEmailUser().matches("[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}")) {
+            throw new IllegalArgumentException("Correo electrónico inválido.");
+        }        
 
         if (registerRequestDTO.getUserName() == null || registerRequestDTO.getUserName().isEmpty()) {
             throw new IllegalArgumentException("El nombre de usuario es obligatorio.");

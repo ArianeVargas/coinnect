@@ -38,16 +38,17 @@ public class JwtTokenFilter extends OncePerRequestFilter {
         if (token != null) {
             try {
                 final String userName = tokenService.getUserNameFromToken(token);
+                final String role = tokenService.getRoleFromToken(token);
 
                 if (userName != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                     UserDetails userDetails = userDetailsService.loadUserByUsername(userName);
-
+    
                     if (tokenService.isTokenValid(token, userDetails)) {
                         UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                             userDetails, null, userDetails.getAuthorities());
-
+    
                         authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-
+    
                         SecurityContextHolder.getContext().setAuthentication(authToken);
                     }
                 }
