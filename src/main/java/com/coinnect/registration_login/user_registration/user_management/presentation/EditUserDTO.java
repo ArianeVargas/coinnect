@@ -30,11 +30,9 @@ public class EditUserDTO {
     private String emailUser;
 
     @NotNull
-    @Size(min = 5, max = 20, message = "Username must be between 5 and 20 characters")
     private String userName;
 
     @NotNull
-    @Size(min = 8, message = "Password must be at least 8 characters")
     private String password;
 
 }
