@@ -1,4 +1,4 @@
-package com.coinnect.registration_login.user_registration.user_management.application;
+package com.coinnect.registration_login.user_management.application;
 
 import java.util.List;
 
@@ -6,9 +6,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.coinnect.registration_login.common.exception.ResourceNotFoundException;
+import com.coinnect.registration_login.user_management.presentation.EditUserDTO;
 import com.coinnect.registration_login.user_registration.domain.User;
 import com.coinnect.registration_login.user_registration.infraestructure.UserRepository;
-import com.coinnect.registration_login.user_registration.user_management.presentation.EditUserDTO;
 
 import lombok.RequiredArgsConstructor;
 

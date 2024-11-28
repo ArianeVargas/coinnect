@@ -1,4 +1,4 @@
-package com.coinnect.registration_login.user_registration.user_management.presentation;
+package com.coinnect.registration_login.user_management.presentation;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;

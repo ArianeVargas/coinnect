@@ -37,6 +37,7 @@ public class TokenService {
         return getToken(new HashMap<>(), user);
     }
 
+    @SuppressWarnings("deprecation")
     private String getToken(Map<String, Object> extraClaims, UserDetails user) {
         String role = user.getAuthorities().stream()
                       .map(GrantedAuthority::getAuthority)
@@ -71,6 +72,7 @@ public class TokenService {
         return (userName.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
 
+    @SuppressWarnings("deprecation")
     private Claims getAllClaims(String token){
         if (token == null || token.trim().isEmpty()) {
             throw new IllegalArgumentException("Token cannot be null or empty");
