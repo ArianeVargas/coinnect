@@ -29,37 +29,47 @@ public class SecurityConfig {
     @Bean
     public AuthenticationEntryPoint authenticationEntryPoint() {
         return (request, response, authException) -> {
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "No has iniciado sesión correctamente.");
+            response.sendError(
+                HttpServletResponse.SC_UNAUTHORIZED, 
+                "Código de error: 401 - No has iniciado sesión correctamente. " +
+                "Este error ocurre cuando el usuario intenta acceder a un recurso que requiere autenticación, " +
+                "pero no ha proporcionado credenciales válidas o su sesión ha expirado."
+            );
         };
     }
 
     @Bean
     public AccessDeniedHandler accessDeniedHandler() {
         return (request, response, accessDeniedException) -> {
-            response.sendError(HttpServletResponse.SC_FORBIDDEN, "No tienes permiso para acceder a este recurso.");
+            response.sendError(
+                HttpServletResponse.SC_FORBIDDEN, 
+                "Código de error: 403 - No tienes permiso para acceder a este recurso. " +
+                "Este error ocurre cuando el usuario está autenticado pero no tiene los permisos necesarios " +
+                "para acceder al recurso solicitado."
+            );
         };
     }
 
-    @SuppressWarnings("deprecation")
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            .csrf(csrf -> csrf.disable())
-            .authorizeRequests(auth -> auth
-                .requestMatchers("/auth/**").permitAll()  // Permite el acceso público a las rutas de auth
-                .requestMatchers("/management/**").hasRole("ADMIN")  // Solo los administradores pueden acceder a esta ruta
-                .anyRequest().authenticated()  // Requiere autenticación para cualquier otra ruta
-            )
-            .exceptionHandling(exceptionHandling -> exceptionHandling
-                .authenticationEntryPoint(authenticationEntryPoint())
-                .accessDeniedHandler(accessDeniedHandler())
-            )
-            .sessionManagement(session -> session
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)  // No se usa sesión en el servidor, todo es gestionado por JWT
-            )
-            .authenticationProvider(authenticationProvider)  // Usa el AuthenticationProvider que provees
-            .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);  // El filtro JWT se ejecuta antes que el filtro de autenticación de username/password.
+        .csrf(csrf -> csrf.disable())
+        .authorizeRequests(auth -> auth
+            .requestMatchers("/auth/**").permitAll()  
+            .requestMatchers("/register").permitAll() 
+            .requestMatchers("/management/**").hasRole("ADMIN")  
+            .anyRequest().authenticated()  
+        )
+        .exceptionHandling(exceptionHandling -> exceptionHandling
+            .authenticationEntryPoint(authenticationEntryPoint())
+            .accessDeniedHandler(accessDeniedHandler())
+        )
+        .sessionManagement(session -> session
+            .sessionCreationPolicy(SessionCreationPolicy.STATELESS)  
+        )
+        .authenticationProvider(authenticationProvider)  
+        .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class); 
 
-        return http.build();
+    return http.build();
     }
 }

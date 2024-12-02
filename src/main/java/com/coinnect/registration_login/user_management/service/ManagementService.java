@@ -1,14 +1,15 @@
-package com.coinnect.registration_login.user_management.application;
+package com.coinnect.registration_login.user_management.service;
 
 import java.util.List;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.coinnect.registration_login.common.exception.ResourceAlreadyExistsException;
 import com.coinnect.registration_login.common.exception.ResourceNotFoundException;
-import com.coinnect.registration_login.user_management.presentation.EditUserDTO;
-import com.coinnect.registration_login.user_registration.domain.User;
-import com.coinnect.registration_login.user_registration.infraestructure.UserRepository;
+import com.coinnect.registration_login.user_management.dto.EditUserDTO;
+import com.coinnect.registration_login.user_registration.model.User;
+import com.coinnect.registration_login.user_registration.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -29,19 +30,28 @@ public class ManagementService {
     }
 
     public User updateUser(Long id, EditUserDTO editUserDTO){
-
         User user = getUserById(id);
-        if(editUserDTO.getNameUser() != null){
-            user.setNameUser(editUserDTO.getNameUser());
+        
+        if (userRepository.existsByEmailUser(editUserDTO.getEmail())) {
+            throw new ResourceAlreadyExistsException("El correo electrónico ya está registrado.");
         }
-        if(editUserDTO.getLastNameUser() != null){
-            user.setLastNameUser(editUserDTO.getLastNameUser());
+        
+        if (userRepository.existsByUserName(editUserDTO.getUserName())) {
+            throw new ResourceAlreadyExistsException("El nombre de usuario ya está en uso.");
         }
-        if(editUserDTO.getIdentificationUser() != null){
-            user.setIdentificationUser(editUserDTO.getIdentificationUser());
+    
+        // Actualización del usuario
+        if(editUserDTO.getName() != null){
+            user.setName(editUserDTO.getName());
         }
-        if(editUserDTO.getEmailUser() != null){
-            user.setEmailUser(editUserDTO.getEmailUser());
+        if(editUserDTO.getLastName() != null){
+            user.setLastName(editUserDTO.getLastName());
+        }
+        if(editUserDTO.getIdentification() != null){
+            user.setIdentification(editUserDTO.getIdentification());
+        }
+        if(editUserDTO.getEmail() != null){
+            user.setEmail(editUserDTO.getEmail());
         }
         if(editUserDTO.getUserName() != null){
             user.setUserName(editUserDTO.getUserName());
@@ -50,10 +60,9 @@ public class ManagementService {
             String encodedPassword = passwordEncoder.encode(editUserDTO.getPassword());
             user.setPassword(encodedPassword);
         }
-
+        
         return userRepository.save(user);
     }
-
 
     public void deleteUser(Long id){
         if(!userRepository.existsById(id)){
@@ -61,4 +70,5 @@ public class ManagementService {
         }
         userRepository.deleteById(id);
     }
+    
 }

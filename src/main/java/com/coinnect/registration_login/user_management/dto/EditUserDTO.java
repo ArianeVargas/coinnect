@@ -1,4 +1,4 @@
-package com.coinnect.registration_login.user_management.presentation;
+package com.coinnect.registration_login.user_management.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
@@ -16,17 +16,17 @@ import lombok.Setter;
 public class EditUserDTO {
 
     @NotNull
-    private String nameUser;
+    private String name;
 
     @NotNull
-    private String lastNameUser;
+    private String lastName;
 
     @NotNull
-    private String identificationUser;
+    private String identification;
 
     @NotNull
-    @Email
-    private String emailUser;
+    @Email(message = "El correo electrónico debe ser válido.")
+    private String email;
 
     @NotNull
     private String userName;

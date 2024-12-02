@@ -1,4 +1,4 @@
-package com.coinnect.registration_login.user_registration.presentation;
+package com.coinnect.registration_login.user_registration.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -8,12 +8,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.coinnect.registration_login.user_registration.application.RegisterService;
+import com.coinnect.registration_login.user_registration.dto.RegisterRequestDTO;
+import com.coinnect.registration_login.user_registration.dto.RegisterResponseDTO;
+import com.coinnect.registration_login.user_registration.service.RegisterService;
 
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/register")
 public class RegisterContoller {
 
     @Autowired

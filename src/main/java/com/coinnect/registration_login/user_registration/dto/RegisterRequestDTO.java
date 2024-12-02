@@ -1,4 +1,4 @@
-package com.coinnect.registration_login.user_registration.presentation;
+package com.coinnect.registration_login.user_registration.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,20 +15,20 @@ import jakarta.validation.constraints.Size;
 public class RegisterRequestDTO {
 
     @NotBlank(message = "El nombre no puede estar vacío")
-    private String nameUser;
+    private String name;
 
     @NotBlank(message = "El apellido no puede estar vacío")
-    private String lastNameUser;
+    private String lastName;
 
     @NotBlank(message = "La identificación no puede estar vacía")
-    @Size(min = 6, max = 12, message = "La identificación debe tener entre 6 y 12 caracteres")
-    private String identificationUser;
+    private String identification;
 
     @NotBlank(message = "El email no puede estar vacío")
     @Email(message = "Debe proporcionar un email válido")
-    private String emailUser;
+    private String email;
 
     @NotBlank(message = "El nombre de usuario no puede estar vacío")
+    @Size(min = 5, max = 20, message = "El nombre de usuario debe tener entre 5 y 20 caracteres")
     private String userName;
 
     @NotBlank(message = "La contraseña no puede estar vacía")

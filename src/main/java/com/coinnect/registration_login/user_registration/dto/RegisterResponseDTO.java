@@ -1,4 +1,4 @@
-package com.coinnect.registration_login.user_registration.presentation;
+package com.coinnect.registration_login.user_registration.dto;
 
 import java.time.LocalDateTime;
 

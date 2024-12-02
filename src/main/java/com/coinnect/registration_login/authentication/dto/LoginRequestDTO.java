@@ -1,4 +1,4 @@
-package com.coinnect.registration_login.authentication.presentation;
+package com.coinnect.registration_login.authentication.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

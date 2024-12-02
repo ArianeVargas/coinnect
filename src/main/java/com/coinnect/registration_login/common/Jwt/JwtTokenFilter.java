@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.coinnect.registration_login.authentication.application.TokenService;
+import com.coinnect.registration_login.authentication.service.TokenService;
 import com.coinnect.registration_login.common.exception.UnauthorizedException;
 
 import org.springframework.util.StringUtils;

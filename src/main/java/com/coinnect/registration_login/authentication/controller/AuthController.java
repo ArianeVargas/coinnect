@@ -1,10 +1,12 @@
-package com.coinnect.registration_login.authentication.presentation;
+package com.coinnect.registration_login.authentication.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.coinnect.registration_login.authentication.application.AuthService;
+import com.coinnect.registration_login.authentication.dto.LoginRequestDTO;
+import com.coinnect.registration_login.authentication.dto.TokenResponseDTO;
+import com.coinnect.registration_login.authentication.service.AuthService;
 
 import jakarta.validation.Valid;
 

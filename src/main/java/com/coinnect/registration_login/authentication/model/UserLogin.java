@@ -1,4 +1,4 @@
-package com.coinnect.registration_login.authentication.domain;
+package com.coinnect.registration_login.authentication.model;
 
 import java.util.Collection;
 import java.util.List;
@@ -7,7 +7,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.coinnect.registration_login.user_registration.domain.User;
+import com.coinnect.registration_login.user_registration.model.User;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -20,6 +20,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -41,10 +42,12 @@ public class UserLogin implements UserDetails {
     private Long id;
 
     @NotNull
+    @NotBlank(message = "El nombre de usuario no puede estar vacío")
     @Column(name = "user_name", nullable = false, unique = true)
     private String userName;
 
     @NotNull
+    @NotBlank(message = "La contraseña no puede estar vacía")
     @Column(nullable = false)
     private String password;
 
@@ -70,5 +73,24 @@ public class UserLogin implements UserDetails {
         return userName;
     }
 
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 }
 

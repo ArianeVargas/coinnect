@@ -1,4 +1,4 @@
-package com.coinnect.registration_login.authentication.application;
+package com.coinnect.registration_login.authentication.service;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -9,11 +9,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.coinnect.registration_login.authentication.presentation.LoginRequestDTO;
-import com.coinnect.registration_login.authentication.presentation.TokenResponseDTO;
+import com.coinnect.registration_login.authentication.dto.LoginRequestDTO;
+import com.coinnect.registration_login.authentication.dto.TokenResponseDTO;
 import com.coinnect.registration_login.common.exception.ResourceNotFoundException;
-import com.coinnect.registration_login.user_registration.domain.User;
-import com.coinnect.registration_login.user_registration.infraestructure.UserRepository;
+import com.coinnect.registration_login.user_registration.model.User;
+import com.coinnect.registration_login.user_registration.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 

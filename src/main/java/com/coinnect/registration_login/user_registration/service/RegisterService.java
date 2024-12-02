@@ -1,16 +1,16 @@
-package com.coinnect.registration_login.user_registration.application;
+package com.coinnect.registration_login.user_registration.service;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.coinnect.registration_login.authentication.domain.Role;
-import com.coinnect.registration_login.authentication.domain.UserLogin;
-import com.coinnect.registration_login.authentication.infraestructure.UserLoginRepository;
+import com.coinnect.registration_login.authentication.model.Role;
+import com.coinnect.registration_login.authentication.model.UserLogin;
+import com.coinnect.registration_login.authentication.repository.UserLoginRepository;
 import com.coinnect.registration_login.common.exception.ConflictException;
-import com.coinnect.registration_login.user_registration.domain.User;
-import com.coinnect.registration_login.user_registration.infraestructure.UserRepository;
-import com.coinnect.registration_login.user_registration.presentation.RegisterRequestDTO;
-import com.coinnect.registration_login.user_registration.presentation.RegisterResponseDTO;
+import com.coinnect.registration_login.user_registration.dto.RegisterRequestDTO;
+import com.coinnect.registration_login.user_registration.dto.RegisterResponseDTO;
+import com.coinnect.registration_login.user_registration.model.User;
+import com.coinnect.registration_login.user_registration.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -38,10 +38,10 @@ public class RegisterService {
 
         return RegisterResponseDTO.builder()  
             .id(savedUser.getId())
-            .nameUser(savedUser.getNameUser())
-            .lastNameUser(savedUser.getLastNameUser())
-            .identificationUser(savedUser.getIdentificationUser())
-            .emailUser(savedUser.getEmailUser())
+            .nameUser(savedUser.getName())
+            .lastNameUser(savedUser.getLastName())
+            .identificationUser(savedUser.getIdentification())
+            .emailUser(savedUser.getEmail())
             .userName(savedUser.getUserName())
             .createdAt(savedUser.getCreatedAt())  
             .updatedAt(savedUser.getUpdatedAt())  
@@ -49,19 +49,19 @@ public class RegisterService {
     }
 
     private void validateFields(RegisterRequestDTO registerRequestDTO) {
-        if (registerRequestDTO.getNameUser() == null || registerRequestDTO.getNameUser().isEmpty()) {
+        if (registerRequestDTO.getName() == null || registerRequestDTO.getName().isEmpty()) {
             throw new IllegalArgumentException("El nombre es obligatorio.");
         }
 
-        if (registerRequestDTO.getLastNameUser() == null || registerRequestDTO.getLastNameUser().isEmpty()) {
+        if (registerRequestDTO.getLastName() == null || registerRequestDTO.getLastName().isEmpty()) {
             throw new IllegalArgumentException("El apellido es obligatorio.");
         }
 
-        if (registerRequestDTO.getIdentificationUser() == null || registerRequestDTO.getIdentificationUser().isEmpty()) {
+        if (registerRequestDTO.getIdentification() == null || registerRequestDTO.getIdentification().isEmpty()) {
             throw new IllegalArgumentException("La identificación es obligatoria.");
         }
 
-        if (!registerRequestDTO.getEmailUser().matches("[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}")) {
+        if (!registerRequestDTO.getEmail().matches("[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}")) {
             throw new IllegalArgumentException("Correo electrónico inválido.");
         }        
 
@@ -76,7 +76,7 @@ public class RegisterService {
 
     private void validateUserExistence(RegisterRequestDTO registerRequestDTO) {
 
-        if (userRepository.findByIdentificationUser(registerRequestDTO.getIdentificationUser()).isPresent()) {
+        if (userRepository.findByIdentificationUser(registerRequestDTO.getIdentification()).isPresent()) {
             throw new ConflictException("Usuario ya registrado con esta identificación.");
         }
 
@@ -84,17 +84,17 @@ public class RegisterService {
             throw new ConflictException("Nombre de usuario ya está en uso.");
         }
 
-        if (userRepository.findByEmailUser(registerRequestDTO.getEmailUser()).isPresent()) {
+        if (userRepository.findByEmailUser(registerRequestDTO.getEmail()).isPresent()) {
             throw new ConflictException("Correo electrónico ya está en uso.");
         }
     }
 
     private User createNewUser(RegisterRequestDTO registerRequestDTO) {
         User newUser = new User();
-        newUser.setNameUser(registerRequestDTO.getNameUser());
-        newUser.setLastNameUser(registerRequestDTO.getLastNameUser());
-        newUser.setIdentificationUser(registerRequestDTO.getIdentificationUser());
-        newUser.setEmailUser(registerRequestDTO.getEmailUser());
+        newUser.setName(registerRequestDTO.getName());
+        newUser.setLastName(registerRequestDTO.getLastName());
+        newUser.setIdentification(registerRequestDTO.getIdentification());
+        newUser.setEmail(registerRequestDTO.getEmail());
         newUser.setUserName(registerRequestDTO.getUserName());
         return newUser;  
     }

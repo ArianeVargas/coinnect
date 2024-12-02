@@ -1,4 +1,4 @@
-package com.coinnect.registration_login.user_management.presentation;
+package com.coinnect.registration_login.user_management.controller;
 
 import java.util.List;
 
@@ -12,8 +12,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.coinnect.registration_login.user_management.application.ManagementService;
-import com.coinnect.registration_login.user_registration.domain.User;
+import com.coinnect.registration_login.user_management.dto.EditUserDTO;
+import com.coinnect.registration_login.user_management.service.ManagementService;
+import com.coinnect.registration_login.user_registration.model.User;
 
 import jakarta.validation.Valid;
 

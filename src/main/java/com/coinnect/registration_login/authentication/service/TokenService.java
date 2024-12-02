@@ -1,4 +1,4 @@
-package com.coinnect.registration_login.authentication.application;
+package com.coinnect.registration_login.authentication.service;
 
 import java.security.Key;
 import java.util.Date;
@@ -12,7 +12,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-import com.coinnect.registration_login.authentication.presentation.LoginRequestDTO;
+import com.coinnect.registration_login.authentication.dto.LoginRequestDTO;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

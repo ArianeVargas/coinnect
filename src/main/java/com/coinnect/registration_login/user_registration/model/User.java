@@ -1,4 +1,4 @@
-package com.coinnect.registration_login.user_registration.domain;
+package com.coinnect.registration_login.user_registration.model;
 
 import java.time.LocalDateTime;
 
@@ -6,7 +6,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import com.coinnect.registration_login.authentication.domain.UserLogin;
+import com.coinnect.registration_login.authentication.model.UserLogin;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -17,6 +17,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
@@ -35,29 +36,30 @@ public class User {
     private Long id;
 
     @NotNull
-    @Column(name = "name_user")
-    private String nameUser;
+    @NotBlank(message = "El nombre no puede estar vacío")
+    @Column(name = "name")
+    private String name;
 
     @NotNull
-    @Column(name = "last_name_user")
-    private String lastNameUser;
+    @Column(name = "last_name")
+    private String lastName;
 
-    @NotNull
-    @Column(name = "identification_user", unique = true)
-    private String identificationUser;
+    @NotBlank(message = "La identificación no puede estar vacía")
+    @Column(name = "identification", unique = true)
+    private String identification;
 
-    @NotNull
-    @Email
-    @Column(name = "email_user", unique = true)
-    private String emailUser;
+    @NotBlank(message = "El email no puede estar vacío")
+    @Email(message = "Debe proporcionar un email válido")
+    @Column(name = "email", unique = true)
+    private String email;
 
-    @NotNull
-    @Size(min = 5, max = 20, message = "Username must be between 5 and 20 characters")
+    @NotBlank(message = "El nombre de usuario no puede estar vacío")
+    @Size(min = 5, max = 20, message = "El nombre de usuario debe tener entre 5 y 20 caracteres.")
     @Column(name = "user_name", unique = true)
     private String userName;
 
-    @NotNull
-    @Size(min = 8, message = "Password must be at least 8 characters")
+    @NotBlank(message = "La contraseña no puede estar vacía")
+    @Size(min = 8, message = "La contraseña debe tener al menos 8 caracteres.")
     private String password;
 
     @CreatedDate
@@ -67,8 +69,5 @@ public class User {
     @LastModifiedDate
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
-
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
-    private UserLogin userLogin;
 
 }

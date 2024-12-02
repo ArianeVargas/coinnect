@@ -1,4 +1,4 @@
-package com.coinnect.registration_login.user_management.presentation;
+package com.coinnect.registration_login.user_management.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,13 +12,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.coinnect.registration_login.user_management.application.ManagementService;
-import com.coinnect.registration_login.user_registration.domain.User;
+import com.coinnect.registration_login.user_management.dto.EditUserDTO;
+import com.coinnect.registration_login.user_management.service.ManagementService;
+import com.coinnect.registration_login.user_registration.model.User;
 
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/users")
 public class UserController {
 
      @Autowired
