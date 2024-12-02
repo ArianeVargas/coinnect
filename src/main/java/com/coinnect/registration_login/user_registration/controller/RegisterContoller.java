@@ -21,7 +21,7 @@ public class RegisterContoller {
     @Autowired
     private RegisterService registerService;
 
-    @PostMapping("/register")
+    @PostMapping("/")
     public ResponseEntity<RegisterResponseDTO> register(@Valid @RequestBody RegisterRequestDTO registerRequestDTO) {
         RegisterResponseDTO response = registerService.register(registerRequestDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);

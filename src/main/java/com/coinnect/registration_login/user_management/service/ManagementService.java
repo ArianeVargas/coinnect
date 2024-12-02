@@ -32,15 +32,15 @@ public class ManagementService {
     public User updateUser(Long id, EditUserDTO editUserDTO){
         User user = getUserById(id);
         
-        if (userRepository.existsByEmailUser(editUserDTO.getEmail())) {
+        if (userRepository.findByEmail(editUserDTO.getEmail()).isPresent()) {
             throw new ResourceAlreadyExistsException("El correo electrónico ya está registrado.");
         }
         
-        if (userRepository.existsByUserName(editUserDTO.getUserName())) {
+        if (userRepository.findByUserName(editUserDTO.getUserName()).isPresent()) {
             throw new ResourceAlreadyExistsException("El nombre de usuario ya está en uso.");
         }
+        
     
-        // Actualización del usuario
         if(editUserDTO.getName() != null){
             user.setName(editUserDTO.getName());
         }

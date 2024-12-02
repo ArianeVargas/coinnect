@@ -52,31 +52,31 @@ public class RegisterService {
         if (registerRequestDTO.getName() == null || registerRequestDTO.getName().isEmpty()) {
             throw new IllegalArgumentException("El nombre es obligatorio.");
         }
-
+    
         if (registerRequestDTO.getLastName() == null || registerRequestDTO.getLastName().isEmpty()) {
             throw new IllegalArgumentException("El apellido es obligatorio.");
         }
-
+    
         if (registerRequestDTO.getIdentification() == null || registerRequestDTO.getIdentification().isEmpty()) {
             throw new IllegalArgumentException("La identificación es obligatoria.");
         }
-
+    
         if (!registerRequestDTO.getEmail().matches("[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}")) {
             throw new IllegalArgumentException("Correo electrónico inválido.");
         }        
-
+    
         if (registerRequestDTO.getUserName() == null || registerRequestDTO.getUserName().isEmpty()) {
             throw new IllegalArgumentException("El nombre de usuario es obligatorio.");
         }
-
+    
         if (registerRequestDTO.getPassword() == null || registerRequestDTO.getPassword().isEmpty()) {
             throw new IllegalArgumentException("La contraseña es obligatoria.");
         }
-    }
+    }    
 
     private void validateUserExistence(RegisterRequestDTO registerRequestDTO) {
 
-        if (userRepository.findByIdentificationUser(registerRequestDTO.getIdentification()).isPresent()) {
+        if (userRepository.findByIdentification(registerRequestDTO.getIdentification()).isPresent()) {
             throw new ConflictException("Usuario ya registrado con esta identificación.");
         }
 
@@ -84,7 +84,7 @@ public class RegisterService {
             throw new ConflictException("Nombre de usuario ya está en uso.");
         }
 
-        if (userRepository.findByEmailUser(registerRequestDTO.getEmail()).isPresent()) {
+        if (userRepository.findByEmail(registerRequestDTO.getEmail()).isPresent()) {
             throw new ConflictException("Correo electrónico ya está en uso.");
         }
     }
