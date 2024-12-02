@@ -66,6 +66,13 @@ public class GlobalExceptionHandler {
         return buildResponse(HttpStatus.CONFLICT, List.of("Conflicto de integridad de datos: " + ex.getMessage()));
     }
 
+    @ExceptionHandler(ConflictException.class)
+    public ResponseEntity<Map<String, Object>> handleConflictException(ConflictException ex) {
+        return buildResponse(HttpStatus.INTERNAL_SERVER_ERROR, 
+            List.of("Ha ocurrido un error inesperado. " + ex.getMessage()));
+    }
+
+
     private ResponseEntity<Map<String, Object>> buildResponse(HttpStatus status, List<String> errors) {
         String statusDescription = getStatusDescription(status);
         Map<String, Object> body = Map.of(

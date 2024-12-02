@@ -29,7 +29,7 @@ public class ManagementController {
     private ManagementService managementService;
 
     @PreAuthorize("hasRole('ADMIN')")
-    @GetMapping
+    @GetMapping("/")
     public List<User> users(){
         return managementService.getAllUsers();
     }
